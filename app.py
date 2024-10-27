@@ -10,8 +10,10 @@ from sklearn.model_selection import train_test_split
 from prophet import Prophet
 from datetime import datetime
 from flask_cors import CORS
+import tempfile
 
-# Load environment variables
+# Load environment variables.
+os.environ['TMPDIR'] = '/dev/shm'
 load_dotenv('.env')
 today = datetime.today()
 # Database connection

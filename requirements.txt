@@ -6,4 +6,5 @@ python-dotenv
 scikit-learn
 prophet
 flask-cors
+cmdstanpy
 gunicorn
