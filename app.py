@@ -116,10 +116,15 @@ def get_predictions():
 
     def prophet_pipeline(data, periods=5, freq='Y'):
         model = Prophet()
-        model.fit(data)
+        # Specify `TMPDIR` or ensure directories exist
+        os.makedirs('/dev/shm/prophet_tmp', exist_ok=True)
+        with tempfile.TemporaryDirectory(dir='/dev/shm/prophet_tmp') as tmpdir:
+            model.stan_backend.set_tmpdir(tmpdir)
+            model.fit(data)
         future = model.make_future_dataframe(periods=periods, freq=freq)
         forecast = model.predict(future)
         return forecast[['ds', 'yhat']]
+
 
     # Prepare data for each variable
     forecast1 = prophet_pipeline(prepare_prophet_data(prophetData, 'Life_Ladder'))
